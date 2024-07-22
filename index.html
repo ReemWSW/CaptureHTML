@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen Capture Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #capture {
+            border: 1px solid #ccc;
+            padding: 20px;
+            width: 300px;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="capture">
+        <h1>Hello World!</h1>
+        <p>This is a sample text to capture.</p>
+    </div>
+    
+    <button id="captureButton">Capture and Download as PDF</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+    <!-- Download PNG -->
+    <script>
+        document.getElementById('captureButton').addEventListener('click', function() {
+            html2canvas(document.getElementById('capture')).then(function(canvas) {
+                // Convert the canvas to a data URL
+                var imgData = canvas.toDataURL('image/png');
+
+                // Create a temporary link element
+                var link = document.createElement('a');
+                link.href = imgData;
+                link.download = 'screenshot.png';
+
+                // Trigger the download
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link); // Remove the link after download
+            });
+        });
+    </script>
+    
+    <!-- Download pdf -->
+    <!-- <script>
+        document.getElementById('captureButton').addEventListener('click', function() {
+            html2canvas(document.getElementById('capture')).then(function(canvas) {
+                // Convert the canvas to a data URL
+                var imgData = canvas.toDataURL('image/png');
+
+                // Create a jsPDF instance
+                const { jsPDF } = window.jspdf;
+                var pdf = new jsPDF();
+
+                // Add the image to the PDF
+                pdf.addImage(imgData, 'PNG', 10, 10);
+
+                // Save the PDF
+                pdf.save('screenshot.pdf');
+            });
+        });
+    </script> -->
+</body>
+</html>
